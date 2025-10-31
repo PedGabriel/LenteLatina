@@ -8,9 +8,5 @@ const route = useRoute()
 </script>
 <template>
   <HeaderComponent />
-  <main>
-    <RouterView />
-  </main>
-
   <!--<FooterComponent/> -->
 </template>

@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+body {
+    background-color: #FCFCED;
+    font-family: "Lato", sans-serif;
+    color: #0D1321;
+}
+h1 {
+    font-weight: 900;
+    font-size: 2.5rem;
+}
+h2 {
+    font-weight: 700;
+    font-size: 2rem;
+}
+h3 {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+p {
+    font-size: 1rem;
+    line-height: 1.5;
+}

@@ -5,8 +5,9 @@
 
 </script>
 <template>
-    <!-- Logo ficando na esquerda -->
+    
    <nav>
+          <p>logo</p>
         <ul>
             <RouterLink
                 activeClass="ativo"
@@ -34,6 +35,7 @@
         background: #69140E;
         color: #FCFCED;
         padding: 3vw 6vw;
+        border-bottom: #FCFCED;
     }
     ul {
         display: flex;
@@ -42,17 +44,21 @@
     ul a {
         border: #FCFCED 2px solid;
         border-radius: 8px;
-        padding: 0.5vw 1.5vw;
-        margin: 0 3vw 0 0;
+        padding: 0.3vw 1vw;
+        margin: 0 2vw 0 0;
+        font-weight: 600;
         &.ativo {
-            background-color: #A44200;
+            background-color: #FCFCED;
+            color: #69140E;
         }
     }
-    ul li:last-child{
-        margin: 0;
-    }
+  
     ul a:hover {
         transform: scale(1.1);
         transition: 0.3s;
     }
+  p{
+    position: absolute;
+    justify-content: left;
+ }
 </style>

@@ -12,13 +12,17 @@ export const useCountryStore = defineStore('country', () => {
   const countrys = computed(() => state.countrys);
 
   function getCountryNameById (id) {
-    state.country.find((country) => country.id === id).native_name
+    state.countrys.find((country) => country.id === id).native_name
   };
+
+  const latinAmericanCountries = ["AR", "BO","BR","CL","CO","CR", "CU","DO", "EC","SV", "GT","HN","MX","NI","PA","PY","PE","PR", "UY","VE"];
 
   async function getAllCountrys() {
     const response = await api.get(`configuration/countries?language=${lingua.value}`);
-    state.countrys = response.data.countrys;
+    state.countrys = response.data;
   }
 
-  return { countrys, getAllCountrys, getCountryNameById };
+  const latinCountries = computed(() => state.countrys.filter(c => latinAmericanCountries.includes(c.iso_3166_1)))
+
+  return { countrys, getAllCountrys, getCountryNameById, latinCountries };
 });

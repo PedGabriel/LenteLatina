@@ -1,13 +1,13 @@
 <script setup>
     import { useRoute } from 'vue-router';
 
-    const route = useRoute();
+    //const route = useRoute();
 
 </script>
 <template>
     
    <nav>
-          <p>logo</p>
+          <!-- <p>logo</p> -->
         <ul>
             <RouterLink
                 activeClass="ativo"
@@ -50,7 +50,7 @@
         &.ativo {
             background-color: #FCFCED;
             color: #69140E;
-        }
+        } 
     }
   
     ul a:hover {

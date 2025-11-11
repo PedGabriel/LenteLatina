@@ -8,8 +8,6 @@ export const useObraStore = defineStore('obra', () => {
         series: [],
     });
 
-      let lingua = ref(`pt-BR`);
-
       const filmes = computed(() => state.filmes);
       const series = computed(() => state.series)
 
@@ -20,12 +18,26 @@ export const useObraStore = defineStore('obra', () => {
         state.series.find((serie) => serie.id == id).name
       }
 
-      async function getMovies() {
-        const response = await api.get('discover/movie')
-      }
-      
-      async function getSeries() {
-        const response = await api.get('duscover/tv')
-      }
+      async function getFilmes(idGenero, lingua, isoPais) {
+        const response = await api.get('discover/movie', {
+          params: {
+              with_genres: idGenero,
+              language: lingua,
+              with_origin_country: isoPais
+          }
+        });
+        filmes.value = response.data.results
+      };
 
-})
+      async function getSeries(idGenero, lingua, isoPais) {
+        const response = await api.get('discover/tv', {
+          params: {
+              with_genres: idGenero,
+              language: lingua,
+              with_origin_country: isoPais
+          }
+        });
+        series.value = response.data.results
+      };
+      return {filmes, series, getFilmeById, getSerieById, getFilmes, getSeries};
+});

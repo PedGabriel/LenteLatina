@@ -1,14 +1,19 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useCountryStore } from '@/stores/paises';
 import { useGeneroStore } from '@/stores/genero';
+import { useObraStore } from '@/stores/obra';
 
 const countryStore = useCountryStore();
 const generoStore = useGeneroStore();
+const ObraStore = useObraStore();
+
+const escolha = ref(Number)
 
 onMounted(async () =>{
     await countryStore.getAllCountrys()
     await generoStore.getAllGeneros('movie')
+    await ObraStore.getFilmes(', pt-BR, VE')
 })
 </script>
 <template>
@@ -28,6 +33,14 @@ onMounted(async () =>{
         v-for="genero in generoStore.generos" :key="genero.id"
         >
         {{ genero.name }}
+        </li>
+    </ul>
+    <h4>Filmes:</h4>
+    <ul>
+        <li
+        v-for="filme in filmes" :key="filme.id"
+        >
+        {{ filme.nome }}
         </li>
     </ul>
 </template>

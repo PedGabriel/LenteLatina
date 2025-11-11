@@ -1,7 +1,14 @@
 <script setup>
     import { useRoute } from 'vue-router';
+    import { getCurrentInstance } from 'vue';
+    
+    const instance = getCurrentInstance();
+    const lingua = instance.appContext.config.globalProperties.$lingua;
 
-    //const route = useRoute();
+    function mudarIdioma () {
+        localStorage.setItem('lingua', lingua.current)
+        console.log('Lingua alterado para', lingua.current)
+    }
 
 </script>
 <template>
@@ -28,14 +35,39 @@
                 Sobre
             </RouterLink>
         </ul>
+        <div>
+        <label for="lingua">Idioma:</label>
+        <select name="lingua" id="lingua"
+        v-model="lingua.current"
+        @change="mudarIdioma"
+        >
+            <option value="pt-BR">Português</option>
+            <option value="es-ES">Espanhol</option>
+        </select>
+    </div>
     </nav>
 </template>
 <style scoped>
+    nav div {
+        font-weight: 600;
+    }
+    nav div label {
+        margin-right: 1vw;
+    }
+    nav div select {
+        border: solid 1px black;
+        background: #FCFCED;
+        color: #68140E;
+        font-weight: 600;
+        padding: 0.5vw;
+    }
     nav {
         background: #69140E;
         color: #FCFCED;
         padding: 3vw 6vw;
         border-bottom: #FCFCED;
+        display: flex;
+        justify-content: space-around;
     }
     ul {
         display: flex;

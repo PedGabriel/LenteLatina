@@ -17,7 +17,15 @@ export const useObraStore = defineStore('obra', () => {
         state.filmes.find((filme) => filme.id == id).name
       }
       function getSerieById(id) {
-        
+        state.series.find((serie) => serie.id == id).name
+      }
+
+      async function getMovies() {
+        const response = await api.get('discover/movie')
+      }
+      
+      async function getSeries() {
+        const response = await api.get('duscover/tv')
       }
 
 })

@@ -3,19 +3,15 @@ import { defineStore } from 'pinia';
 import api from '../plugins/axios';
 
 export const useObraStore = defineStore('obra', () => {
-    const state = reactive ({
-        filmes: [],
-        series: [],
-    });
 
-      const filmes = computed(() => state.filmes);
-      const series = computed(() => state.series)
-
+      const filmes = ref([]);
+      const series = ref([]);
+  
       function getFilmeById(id) {
-        state.filmes.find((filme) => filme.id == id).name
+        return filmes.value.find((filme) => filme.id == id).name
       }
       function getSerieById(id) {
-        state.series.find((serie) => serie.id == id).name
+        return series.value.find((serie) => serie.id == id).name
       }
 
       async function getFilmes(idGenero, lingua, isoPais) {

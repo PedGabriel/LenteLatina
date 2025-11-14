@@ -12,8 +12,8 @@ export const useGeneroStore = defineStore('genero', () => {
   const getGeneroName = (id) =>
     state.generos.find((genero) => genero.id === id).name;
 
-  const getAllGeneros = async (type) => {
-    const response = await api.get(`genre/${type}/list?language=pt-BR`);
+  const getAllGeneros = async (type, lingua) => {
+    const response = await api.get(`genre/${type}/list?language=${lingua}`);
     state.generos = response.data.genres;
   };
 

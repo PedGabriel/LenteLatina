@@ -7,7 +7,6 @@ export const useCountryStore = defineStore('country', () => {
     countrys: [],
   });
 
-  let lingua = ref(`pt-BR`);
 
   const countrys = computed(() => state.countrys);
 
@@ -17,8 +16,8 @@ export const useCountryStore = defineStore('country', () => {
 
   const latinAmericanCountries = ["AR", "BO","BR","CL","CO","CR", "CU","DO", "EC","SV", "GT","HN","MX","NI","PA","PY","PE","PR", "UY","VE"];
 
-  async function getAllCountrys() {
-    const response = await api.get(`configuration/countries?language=${lingua.value}`);
+  async function getAllCountrys(lingua) {
+    const response = await api.get(`configuration/countries?language=${lingua}`);
     state.countrys = response.data;
   }
 

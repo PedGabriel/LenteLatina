@@ -22,11 +22,6 @@ const router = createRouter({
       name: 'paises',
       component: PaisesView,
     },
-    {
-      path: '/sobre',
-      name: 'sobre',
-      component: SobreView,
-    },
   ]
 });
 export default router;

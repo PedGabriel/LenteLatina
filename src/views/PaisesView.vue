@@ -1,6 +1,9 @@
 <script setup>
 import { ref, reactive, onMounted, watch, getCurrentInstance } from "vue";
 import { useCountryStore } from "@/stores/paises";
+import { useRoute } from "vue-router";
+
+const router = useRoute();
 
 const countryStore = useCountryStore();
 
@@ -19,6 +22,10 @@ async function update () {
 watch(lingua, () => {
     update()
 });
+
+function abrirPais (iso) {
+    router.push({ name: 'país', params: { iso } });
+}
 </script>
 <template>
     <div>
@@ -27,6 +34,7 @@ watch(lingua, () => {
         <li
         class="clicavel"
         v-for="country in countryStore.latinCountries" :key="country.iso_3166_1"
+        @click="abrirPais(country.iso_3166_1)"
         >
         {{ country.native_name }}
 

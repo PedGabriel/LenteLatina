@@ -14,23 +14,25 @@ export const useObraStore = defineStore('obra', () => {
         return series.value.find((serie) => serie.id == id).name
       }
 
-      async function getFilmes(idGenero, lingua, isoPais) {
+      async function getFilmes(idGenero, lingua, isoPais, sort) {
         const response = await api.get('discover/movie', {
           params: {
               with_genres: idGenero,
               language: lingua,
-              with_origin_country: isoPais
+              with_origin_country: isoPais,
+              sort_by: sort,
           }
         });
         filmes.value = response.data.results
       };
 
-      async function getSeries(idGenero, lingua, isoPais) {
+      async function getSeries(idGenero, lingua, isoPais, sort) {
         const response = await api.get('discover/tv', {
           params: {
               with_genres: idGenero,
               language: lingua,
-              with_origin_country: isoPais
+              with_origin_country: isoPais,
+              sort_by: sort,
           }
         });
         series.value = response.data.results

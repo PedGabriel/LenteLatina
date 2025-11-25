@@ -1,9 +1,9 @@
 <script setup>
 import { ref, reactive, onMounted, watch, getCurrentInstance } from "vue";
 import { useCountryStore } from "@/stores/paises";
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
-const router = useRoute();
+const router = useRouter();
 
 const countryStore = useCountryStore();
 

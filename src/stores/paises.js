@@ -7,18 +7,20 @@ export const useCountryStore = defineStore('country', () => {
     countrys: [],
   });
 
-  let lingua = ref(`pt-BR`);
 
   const countrys = computed(() => state.countrys);
 
-  function getCountryNameById (id) {
-    state.countrys.find((country) => country.id === id).native_name
-  };
+  function getCountryNameById(id) {
+  const found = state.countrys.find(
+    (country) => country.iso_3166_1 === id
+  );
+  return found ? found.native_name : null;
+}
 
   const latinAmericanCountries = ["AR", "BO","BR","CL","CO","CR", "CU","DO", "EC","SV", "GT","HN","MX","NI","PA","PY","PE","PR", "UY","VE"];
 
-  async function getAllCountrys() {
-    const response = await api.get(`configuration/countries?language=${lingua.value}`);
+  async function getAllCountrys(lingua) {
+    const response = await api.get(`configuration/countries?language=${lingua}`);
     state.countrys = response.data;
   }
 

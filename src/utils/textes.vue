@@ -17,15 +17,27 @@ const instance = getCurrentInstance();
 const lingua = reactive(instance.appContext.config.globalProperties.$lingua);
 
 onMounted(async () => {
-  await countryStore.getAllCountrys();
+  await countryStore.getAllCountrys(lingua.current);
   await generoStore.getAllGeneros(tipoGenero.value, lingua.current);
 });
 
 const updateListing = async () => {
   if (tipoGenero.value === "movie") {
     await obraStore.getFilmes(genero.value, lingua.current, pais.value);
+    
+    await generoStore.getAllGeneros(tipoGenero.value, lingua.current);
+
+    await countryStore.getAllCountrys(lingua.current);
+
+
   } else {
     await obraStore.getSeries(genero.value, lingua.current, pais.value);
+
+    await generoStore.getAllGeneros(tipoGenero.value, lingua.current);
+
+    await countryStore.getAllCountrys(lingua.current);
+
+    console.log('foi')
   }
 };
 
@@ -71,7 +83,7 @@ watch(
         <li
           class="clicavel"
           v-for="country in countryStore.latinCountries"
-          :key="country.id"
+          :key="country.iso_3166_1"
           @click="pais = country.iso_3166_1"
         >
           {{ country.native_name }}
@@ -98,11 +110,19 @@ watch(
         </li>
       </ul>
     </div>
-    <div>
+    <div v-if="tipoGenero == 'movie'">
       <h3>Filmes:</h3>
       <ul>
         <li v-for="filme in obraStore.filmes" :key="filme.id">
           {{ filme.title }}
+        </li>
+      </ul>
+    </div>
+        <div v-else>
+      <h3>Series:</h3>
+      <ul>
+        <li v-for="serie in obraStore.series" :key="serie.id">
+          {{ serie.original_name }}
         </li>
       </ul>
     </div>
@@ -113,8 +133,5 @@ section {
   display: flex;
   justify-content: space-between;
   margin: 0 15vw;
-}
-.clicavel {
-  cursor: pointer;
 }
 </style>

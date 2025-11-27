@@ -28,12 +28,14 @@
                 >
                 Países
             </RouterLink>
+            <!--
             <RouterLink
                 activeClass="ativo"
                 to="/sobre"
             >
                 Sobre
             </RouterLink>
+            -->
         </ul>
         <div>
         <label for="lingua">Idioma:</label>

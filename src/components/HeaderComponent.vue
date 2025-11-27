@@ -1,98 +1,131 @@
 <script setup>
-    import { useRoute } from 'vue-router';
-    import { getCurrentInstance } from 'vue';
-    
-    const instance = getCurrentInstance();
-    const lingua = instance.appContext.config.globalProperties.$lingua;
+import { ref } from 'vue'
+import { getCurrentInstance } from 'vue'
 
-    function mudarIdioma () {
-        localStorage.setItem('lingua', lingua.current)
-        console.log('Lingua alterado para', lingua.current)
-    }
+const instance = getCurrentInstance()
+const lingua = instance.appContext.config.globalProperties.$lingua;
 
+const mostrarIdioma = ref(false);
+
+const alternarVisibilidade = () => {
+    mostrarIdioma.value = !mostrarIdioma.value;
+}
+
+function mudarIdioma(idioma) {
+    lingua.current = idioma
+    localStorage.setItem('lingua', idioma)
+    mostrarIdioma.value = false
+}
+
+console.log(lingua.current)
 </script>
+
 <template>
-    
-   <nav>
-          <!-- <p>logo</p> -->
-        <ul>
-            <RouterLink
-                activeClass="ativo"
-                to="/"
-            >
-                Home
-            </RouterLink>
-            <RouterLink 
-                active-class="ativo"
-                to="/paises"
-                >
-                Países
-            </RouterLink>
-            <!--
-            <RouterLink
-                activeClass="ativo"
-                to="/sobre"
-            >
-                Sobre
-            </RouterLink>
-            -->
-        </ul>
-        <div>
-        <label for="lingua">Idioma:</label>
-        <select name="lingua" id="lingua"
-        v-model="lingua.current"
-        @change="mudarIdioma"
-        >
-            <option value="pt-BR">Português</option>
-            <option value="es-ES">Espanhol</option>
-        </select>
-    </div>
+    <nav>
+        <div class="logo-area">
+            <img src="/logo.png" class="logo">
+        </div>
+
+        <div class="right">
+            <ul class="menu">
+                <li>
+                    <RouterLink activeClass="ativo" to="/">HOME</RouterLink>
+                </li>
+                <li>
+                    <RouterLink activeClass="ativo" to="/paises">PAÍSES</RouterLink>
+                </li>
+            </ul>
+
+            <div class="mudar">
+                <p @click="alternarVisibilidade">
+                    IDIOMA
+                    <span :class="mostrarIdioma ? 'mdi mdi-chevron-up' : 'mdi mdi-chevron-down'"></span>
+                </p>
+
+                <ul v-if="mostrarIdioma" class="idiomas">
+                    <li @click="mudarIdioma('pt-BR')" :class="{ ativoIdioma: lingua.current === 'pt-BR' }">
+                        PT-BR
+                    </li>
+
+                    <li @click="mudarIdioma('ES')" :class="{ ativoIdioma: lingua.current === 'ES' }">
+                        ES
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
 </template>
+
 <style scoped>
-    nav div {
-        font-weight: 600;
-    }
-    nav div label {
-        margin-right: 1vw;
-    }
-    nav div select {
-        border: solid 1px black;
-        background: #FCFCED;
-        color: #68140E;
-        font-weight: 600;
-        padding: 0.5vw;
-    }
-    nav {
-        background: #69140E;
-        color: #FCFCED;
-        padding: 3vw 6vw;
-        border-bottom: #FCFCED;
-        display: flex;
-        justify-content: space-around;
-    }
-    ul {
-        display: flex;
-        justify-content: center;
-    }
-    ul a {
-        border: #FCFCED 2px solid;
-        border-radius: 8px;
-        padding: 0.3vw 1vw;
-        margin: 0 2vw 0 0;
-        font-weight: 600;
-        &.ativo {
-            background-color: #FCFCED;
-            color: #69140E;
-        } 
-    }
-  
-    ul a:hover {
-        transform: scale(1.1);
-        transition: 0.3s;
-    }
-  p{
+nav {
+    background: #0D1321;
+    color: #FCFCED;
+    padding: 3vw 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-area {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    width: 110px;
+    height: auto;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+}
+
+.menu {
+    display: flex;
+    gap: 3vw;
+}
+
+.menu li {
+    list-style: none;
+    font-family: "Fjalla One", sans-serif;
+    font-weight: 600;
+}
+
+nav ul a.ativo {
+    text-decoration: underline;
+}
+
+nav ul a:hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+.mudar {
+    position: relative;
+    font-family: "Fjalla One", sans-serif;
+    cursor: pointer;
+}
+
+.idiomas {
     position: absolute;
-    justify-content: left;
- }
+    top: 2.2vw;
+    right: 0;
+    display: flex;
+    gap: 0.5vw;
+}
+
+.idiomas li {
+    cursor: pointer;
+    font-family: "Fjalla One", sans-serif;
+    border-radius: 6px;
+}
+
+.ativoIdioma {
+    text-decoration: underline;
+}
 </style>

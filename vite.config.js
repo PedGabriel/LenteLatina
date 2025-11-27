@@ -9,6 +9,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost'
+    }
+  },
   optimizeDeps: {
     esbuildOptions: {
       target: 'esnext'

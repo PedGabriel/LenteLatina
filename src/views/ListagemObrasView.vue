@@ -12,6 +12,7 @@ import { useObraStore } from "@/stores/obra";
 import { useGeneroStore } from "@/stores/genero";
 import { useCountryStore } from "@/stores/paises";
 import { useRouter } from "vue-router";
+import FiltroComponent from "@/components/FiltroComponent.vue";
 
 const props = defineProps({
   iso: {
@@ -100,8 +101,14 @@ console.log("FILMES:", obraStore.filmes);
 <template>
   <h1>{{ paisAtual }}</h1>
   <h2>{{ tipoAtual }}</h2>
-  <!--filtro-->
-  <div v-if="props.tipo == 'filmes'">
+
+  <FiltroComponent
+  :generos="generoStore.generos"
+  @aplicar="IDgeneroSelecionado = $event"
+  @limpar="IDgeneroSelecionado = null"
+  />
+
+    <div v-if="props.tipo == 'filmes'">
     <ul>
       <li v-for="filme in obraStore.filmes" :key="filme.id">
         <img

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, reactive, onMounted, watch, getCurrentInstance, defineProps} from "vue";
+import { ref, computed, reactive, onMounted, getCurrentInstance, defineProps} from "vue";
 import { useObraStore } from '@/stores/obra';
 import { useCountryStore } from '@/stores/paises';
 import CarrosselComponent from "@/components/CarrosselComponent.vue";

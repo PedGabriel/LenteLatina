@@ -48,7 +48,7 @@ onMounted(async () => {
   } else {
     await generoStore.getAllGeneros("tv", lingua.current);
     await obraStore.getSeries(
-      IDgeneroSelecionado,
+      IDgeneroSelecionado.value,
       lingua.current,
       props.iso,
       null,
@@ -79,8 +79,8 @@ async function update() {
       null,
       pagina.value
     );
-    console.log("foi");
   } else {
+    console.log("foi");
     await generoStore.getAllGeneros("tv", lingua.current);
     await obraStore.getSeries(
       IDgeneroSelecionado.value,
@@ -115,11 +115,12 @@ console.log("FILMES:", obraStore.filmes);
           :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`"
           :alt="filme.title"
         />
-        <p>{{ filme.title }}</p>
+        <p>{{ filme.title}}</p>
       </li>
     </ul>
   </div>
   <div v-else>
+    {{     console.log("foi2") }}
     <ul>
       <li v-for="serie in obraStore.series" :key="serie.id">
         <img

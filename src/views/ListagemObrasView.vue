@@ -12,6 +12,7 @@ import { useObraStore } from "@/stores/obra";
 import { useGeneroStore } from "@/stores/genero";
 import { useCountryStore } from "@/stores/paises";
 import { useRouter } from "vue-router";
+import FiltroComponent from "@/components/FiltroComponent.vue";
 
 const props = defineProps({
   iso: {
@@ -47,7 +48,7 @@ onMounted(async () => {
   } else {
     await generoStore.getAllGeneros("tv", lingua.current);
     await obraStore.getSeries(
-      IDgeneroSelecionado,
+      IDgeneroSelecionado.value,
       lingua.current,
       props.iso,
       null,
@@ -78,8 +79,8 @@ async function update() {
       null,
       pagina.value
     );
-    console.log("foi");
   } else {
+    console.log("foi");
     await generoStore.getAllGeneros("tv", lingua.current);
     await obraStore.getSeries(
       IDgeneroSelecionado.value,
@@ -100,19 +101,26 @@ console.log("FILMES:", obraStore.filmes);
 <template>
   <h1>{{ paisAtual }}</h1>
   <h2>{{ tipoAtual }}</h2>
-  <!--filtro-->
-  <div v-if="props.tipo == 'filmes'">
+
+  <FiltroComponent
+  :generos="generoStore.generos"
+  @aplicar="IDgeneroSelecionado = $event"
+  @limpar="IDgeneroSelecionado = null"
+  />
+
+    <div v-if="props.tipo == 'filmes'">
     <ul>
       <li v-for="filme in obraStore.filmes" :key="filme.id">
         <img
           :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`"
           :alt="filme.title"
         />
-        <p>{{ filme.title }}</p>
+        <p>{{ filme.title}}</p>
       </li>
     </ul>
   </div>
   <div v-else>
+    {{     console.log("foi2") }}
     <ul>
       <li v-for="serie in obraStore.series" :key="serie.id">
         <img

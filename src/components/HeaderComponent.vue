@@ -64,6 +64,16 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+}
+nav::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: 0.5rem;
+    left: 0;
+    background-color: #F9FADC;
 }
 
 .logo-area {

@@ -14,6 +14,7 @@ import { useCountryStore } from "@/stores/paises";
 import { useRouter } from "vue-router";
 import FiltroComponent from "@/components/FiltroComponent.vue";
 
+
 const props = defineProps({
   iso: {
     required: true,
@@ -30,6 +31,13 @@ const generoStore = useGeneroStore();
 
 const IDgeneroSelecionado = ref(null);
 const pagina = ref(1);
+
+obraStore.setEstado({
+  idGenero: IDgeneroSelecionado.value,
+  isoPais: props.iso,
+  paginaAtual: pagina.value,
+  sortBy: null
+});
 
 const instance = getCurrentInstance();
 const lingua = reactive(instance.appContext.config.globalProperties.$lingua);
@@ -79,6 +87,12 @@ async function update() {
       null,
       pagina.value
     );
+    obraStore.setEstado({
+      idGenero: IDgeneroSelecionado.value,
+      isoPais: props.iso,
+      paginaAtual: pagina.value,
+      sortBy: null
+});
   } else {
     console.log("foi");
     await generoStore.getAllGeneros("tv", lingua.current);
@@ -89,6 +103,12 @@ async function update() {
       null,
       pagina.value
     );
+    obraStore.setEstado({
+      idGenero: IDgeneroSelecionado.value,
+      isoPais: props.iso,
+      paginaAtual: pagina.value,
+      sortBy: null
+    });
   }
 }
 
@@ -96,7 +116,15 @@ watch(IDgeneroSelecionado, () => {
   update();
 });
 
-console.log("FILMES:", obraStore.filmes);
+function abrirObra(id, tipo) {
+  router.push({
+    name: 'obras',
+    params: { id, tipo },
+    
+  }
+)
+  
+}
 </script>
 <template>
   <h1>{{ paisAtual }}</h1>
@@ -112,6 +140,7 @@ console.log("FILMES:", obraStore.filmes);
     <ul>
       <li v-for="filme in obraStore.filmes" :key="filme.id">
         <img
+        @click="abrirObra(filme.id, props.tipo)"
           :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`"
           :alt="filme.title"
         />
@@ -120,10 +149,11 @@ console.log("FILMES:", obraStore.filmes);
     </ul>
   </div>
   <div v-else>
-    {{     console.log("foi2") }}
     <ul>
       <li v-for="serie in obraStore.series" :key="serie.id">
         <img
+        @click="abrirObra(serie.id, props.tipo)"
+
           :src="`https://image.tmdb.org/t/p/w500${serie.poster_path}`"
           :alt="serie.name"
         />

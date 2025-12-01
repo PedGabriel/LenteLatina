@@ -4,7 +4,6 @@ import CarrosselComponent from '@/components/CarrosselComponent.vue';
 import { useObraStore } from '@/stores/obra';
 import { useCountryStore } from '@/stores/paises';
 import { RouterLink } from 'vue-router';
-import { useRouter } from "vue-router";
 
 const obraStore = useObraStore();
 const countryStore = useCountryStore();

@@ -47,8 +47,8 @@ console.log(lingua.current)
                         PT-BR
                     </li>
 
-                    <li @click="mudarIdioma('ES')" :class="{ ativoIdioma: lingua.current === 'ES' }">
-                        ES
+                    <li @click="mudarIdioma('es-ES')" :class="{ ativoIdioma: lingua.current === 'es-ES' }">
+                        ES-ES
                     </li>
                 </ul>
             </div>

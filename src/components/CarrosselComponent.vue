@@ -51,15 +51,26 @@ function abrirObra(id, tipo) {
 <style scoped>
 .tudo {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
   gap: 0.5rem;
+  width: 80%;
 }
+
 
 .seta {
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: 4rem;
   cursor: pointer;
+  transition: transform 0.25s ease, color 0.25s ease;
+  color: #0D1321;
+}
+
+
+.seta:hover {
+  transform: scale(1.2);
+  color: #1f2a45;
 }
 
 .carrossel {
@@ -68,16 +79,42 @@ function abrirObra(id, tipo) {
   gap: 1rem;
   padding: 1rem 0;
   scroll-behavior: smooth;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+
 }
 
 li {
   min-width: 15rem;
-  list-style: none;
+  margin: 0 0.5vw 0 0.5vw;
+  background-color: #F5F8B3;
+  padding: 1vw 1vw 0.1vw 1vw;
+  border-radius: 15px;
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.45),
+    0 4px 5px rgba(0, 0, 0, 0.35);
+ transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+li:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.55),
+    0 6px 15px rgba(0, 0, 0, 0.45);
 }
 
 img {
   width: 100%;
   height: 20rem;
   object-fit: cover;
+  border-radius: 15px;
+    box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    0 4px 10px rgba(0, 0, 0, 0.35);
+  
+}
+p{
+  padding-top: 0.5vw;
+   font-family: "Fjalla One", sans-serif;
+   
 }
 </style>

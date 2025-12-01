@@ -12,6 +12,8 @@ import { useObraStore } from "@/stores/obra";
 import { useGeneroStore } from "@/stores/genero";
 import { useCountryStore } from "@/stores/paises";
 import { useRouter } from "vue-router";
+import FiltroComponent from "@/components/FiltroComponent.vue";
+
 
 const props = defineProps({
   iso: {
@@ -30,6 +32,13 @@ const generoStore = useGeneroStore();
 const IDgeneroSelecionado = ref(null);
 const pagina = ref(1);
 
+obraStore.setEstado({
+  idGenero: IDgeneroSelecionado.value,
+  isoPais: props.iso,
+  paginaAtual: pagina.value,
+  sortBy: null
+});
+
 const instance = getCurrentInstance();
 const lingua = reactive(instance.appContext.config.globalProperties.$lingua);
 
@@ -47,7 +56,7 @@ onMounted(async () => {
   } else {
     await generoStore.getAllGeneros("tv", lingua.current);
     await obraStore.getSeries(
-      IDgeneroSelecionado,
+      IDgeneroSelecionado.value,
       lingua.current,
       props.iso,
       null,
@@ -78,8 +87,14 @@ async function update() {
       null,
       pagina.value
     );
-    console.log("foi");
+    obraStore.setEstado({
+      idGenero: IDgeneroSelecionado.value,
+      isoPais: props.iso,
+      paginaAtual: pagina.value,
+      sortBy: null
+});
   } else {
+    console.log("foi");
     await generoStore.getAllGeneros("tv", lingua.current);
     await obraStore.getSeries(
       IDgeneroSelecionado.value,
@@ -88,6 +103,12 @@ async function update() {
       null,
       pagina.value
     );
+    obraStore.setEstado({
+      idGenero: IDgeneroSelecionado.value,
+      isoPais: props.iso,
+      paginaAtual: pagina.value,
+      sortBy: null
+    });
   }
 }
 
@@ -95,20 +116,35 @@ watch(IDgeneroSelecionado, () => {
   update();
 });
 
-console.log("FILMES:", obraStore.filmes);
+function abrirObra(id, tipo) {
+  router.push({
+    name: 'obras',
+    params: { id, tipo },
+    
+  }
+)
+  
+}
 </script>
 <template>
   <h1>{{ paisAtual }}</h1>
   <h2>{{ tipoAtual }}</h2>
-  <!--filtro-->
-  <div v-if="props.tipo == 'filmes'">
+
+  <FiltroComponent
+  :generos="generoStore.generos"
+  @aplicar="IDgeneroSelecionado = $event"
+  @limpar="IDgeneroSelecionado = null"
+  />
+
+    <div v-if="props.tipo == 'filmes'">
     <ul>
       <li v-for="filme in obraStore.filmes" :key="filme.id">
         <img
+        @click="abrirObra(filme.id, props.tipo)"
           :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`"
           :alt="filme.title"
         />
-        <p>{{ filme.title }}</p>
+        <p>{{ filme.title}}</p>
       </li>
     </ul>
   </div>
@@ -116,6 +152,8 @@ console.log("FILMES:", obraStore.filmes);
     <ul>
       <li v-for="serie in obraStore.series" :key="serie.id">
         <img
+        @click="abrirObra(serie.id, props.tipo)"
+
           :src="`https://image.tmdb.org/t/p/w500${serie.poster_path}`"
           :alt="serie.name"
         />

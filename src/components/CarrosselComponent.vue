@@ -51,6 +51,7 @@ function abrirObra(id, tipo, iso) {
     <ul v-if="props.destaques" class="carrossel" ref="caixa">
   <li v-for="item in itens" :key="props.tipo === 'filmes' ? item.filme.id : item.serie.id">
     <img
+    v-fallback-img="'default-poster'"
       @click="abrirObra(
         props.tipo === 'filmes' ? item.filme.id : item.serie.id,
         props.tipo,
@@ -69,6 +70,7 @@ function abrirObra(id, tipo, iso) {
       <li 
       v-for="item in itens" :key="item.id">
         <img
+        v-fallback-img="'default-poster'"
         @click="abrirObra(item.id, props.tipo)"
           :src="`https://image.tmdb.org/t/p/w500${item.poster_path}`"
           :alt="item.title || item.name"

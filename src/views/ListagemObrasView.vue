@@ -150,6 +150,7 @@ function abrirObra(id, tipo) {
     <ul>
       <li v-for="filme in obraStore.filmes" :key="filme.id">
         <img
+         v-fallback-img="'default-poster'"
         @click="abrirObra(filme.id, props.tipo)"
           :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`"
           :alt="filme.title"
@@ -162,6 +163,7 @@ function abrirObra(id, tipo) {
     <ul>
       <li v-for="serie in obraStore.series" :key="serie.id">
         <img
+         v-fallback-img="'default-poster'"
         @click="abrirObra(serie.id, props.tipo)"
 
           :src="`https://image.tmdb.org/t/p/w500${serie.poster_path}`"

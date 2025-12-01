@@ -2,16 +2,27 @@
 import { onMounted, getCurrentInstance, reactive } from 'vue';
 import CarrosselComponent from '@/components/CarrosselComponent.vue';
 import { useObraStore } from '@/stores/obra';
+import { useCountryStore } from '@/stores/paises';
 import { RouterLink } from 'vue-router';
+import { useRouter } from "vue-router";
 
 const obraStore = useObraStore();
+const countryStore = useCountryStore();
 
 const instance = getCurrentInstance();
 const lingua = reactive(instance.appContext.config.globalProperties.$lingua);
 
 onMounted(async () => {
-    await obraStore.getFilmes(null, lingua.current, null, "popularity.desc", 1)
-    await obraStore.getSeries(null, lingua.current, null, "popularity.desc", 1)
+    await countryStore.getAllCountrys(lingua.current);
+
+      obraStore.filmesHome.value = [];
+      obraStore.seriesHome.value = [];
+
+    for (const pais of countryStore.latinCountries) {
+      const iso = pais.iso_3166_1;
+      await obraStore.salvarMaisPopular('filmes', lingua.current, iso);
+      await obraStore.salvarMaisPopular('series', lingua.current, iso);
+    }
 });
 
 </script>
@@ -29,10 +40,23 @@ onMounted(async () => {
         <img src="/public/mapa.png" alt="">
     </div>
   </div>
-  <h3>Produções em destaque:</h3>
-     <CarrosselComponent
-    :itens = "obraStore.filmes"
+  <h2>Produções em destaque:</h2>
+  <div class="destaqueFilmes">
+    <h3>Filmes em destaque:</h3>
+    <CarrosselComponent
+    :itens = "obraStore.filmesHome"
+    :tipo="'filmes'"
+      :destaques="true"
     />
+  </div>
+  <div class="destaqueSeries">
+    <h3>Séries em destaque:</h3>
+    <CarrosselComponent
+    :itens = "obraStore.seriesHome"
+    :tipo="'series'"
+      :destaques="true"
+    />
+  </div>
   <div class="explore">
       <RouterLink to="/paises">Explore mais produções latinas</RouterLink>
     <span class="mdi mdi-chevron-right"></span>
@@ -41,6 +65,11 @@ onMounted(async () => {
 </template>
 
 <style scoped>  
+div.destaqueFilmes {
+  margin-bottom: 4vw;
+  margin-top: 4vw;
+}
+
 template{
   position: relative;
 }
@@ -76,7 +105,10 @@ p{
   line-height: 200%;
    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-h3{
+h2{
+  padding: 0 12.5vw 2vw;
+}
+h3 {
   padding: 0 12.5vw 2vw;
 }
 

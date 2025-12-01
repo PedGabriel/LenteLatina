@@ -1,12 +1,16 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useObraStore } from "@/stores/obra";
+
+const obraStore = useObraStore();
 
 const router = useRouter();
 
 const props = defineProps({
   itens: { type: Array, required: true },
-  tipo: { type: String, required: true }
+  tipo: { type: String, required: true },
+  destaques: { type: Boolean, default: false },
 });
 
 const caixa = ref(null);
@@ -19,22 +23,51 @@ function scrollRight() {
   caixa.value.scrollBy({ left: 300, behavior: "smooth" });
 }
 
-function abrirObra(id, tipo) {
+
+
+function abrirObra(id, tipo, iso) {
+  if (props.destaques) {
+    obraStore.setEstado({
+      idGenero: null,
+      isoPais: iso,
+      paginaAtual: 1,
+      sortBy: "popularity.desc",
+    });
+  }
+
   router.push({
     name: 'obras',
-    params: { id, tipo },
-    
-  }
-);
+    params: { id, tipo }
+  });
 }
+
+
 </script>
 
 <template>
     <div class="tudo">
     <button class="seta" @click="scrollLeft">‹</button>
 
-    <ul class="carrossel" ref="caixa">
-      <li v-for="item in itens" :key="item.id">
+    <ul v-if="props.destaques" class="carrossel" ref="caixa">
+  <li v-for="item in itens" :key="props.tipo === 'filmes' ? item.filme.id : item.serie.id">
+    <img
+      @click="abrirObra(
+        props.tipo === 'filmes' ? item.filme.id : item.serie.id,
+        props.tipo,
+        item.isoPais
+      )"
+      :src="`https://image.tmdb.org/t/p/w500${
+        props.tipo === 'filmes' ? item.filme.poster_path : item.serie.poster_path
+      }`"
+      :alt="props.tipo === 'filmes' ? item.filme.title : item.serie.name"
+    />
+    <p>{{ props.tipo === 'filmes' ? item.filme.title : item.serie.name }}</p>
+  </li>
+</ul>
+    <ul class="carrossel" ref="caixa"
+    v-else>
+      <li 
+      v-for="item in itens" :key="item.id">
         <img
         @click="abrirObra(item.id, props.tipo)"
           :src="`https://image.tmdb.org/t/p/w500${item.poster_path}`"

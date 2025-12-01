@@ -34,7 +34,7 @@ function aplicar() {
 const generosFiltrados = computed(() => {
     if (!pesquisa.value) return props.generos;
     return props.generos.filter(g =>
-        g.nome.toLowerCase().includer(pesquisa.value.toLocaleLowerCase())
+        g.name.toLowerCase().includes(pesquisa.value.toLowerCase())
     )
 })
 
@@ -101,15 +101,18 @@ const generosFiltrados = computed(() => {
 .filtro-botao {
   display: flex;
   align-items: center;
-  background: none;
+  background: #0d1321;
   border: none;
   cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
 .filtro-texto {
+  color: white;
   margin-right: 6px;
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .filtro-icone {
@@ -174,14 +177,15 @@ const generosFiltrados = computed(() => {
 }
 
 .filtro-checkbox {
-  accent-color: #2c7a2c;
+  accent-color: #0d1321; 
 }
+
 
 .filtro-aplicar {
   width: 100%;
   margin-top: 12px;
   padding: 10px;
-  background: #2f5233;
+  background: #0d1321;
   color: white;
   border: none;
   border-radius: 6px;
@@ -190,6 +194,11 @@ const generosFiltrados = computed(() => {
 }
 
 .filtro-aplicar:hover {
-  background: #244028;
+  background: #0d1321;
+}
+
+.filtro-botao:hover {
+  transform: scale(1.1);
+  transition: 0.2s ease;
 }
 </style>

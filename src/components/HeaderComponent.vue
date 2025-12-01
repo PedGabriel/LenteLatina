@@ -22,9 +22,9 @@ console.log(lingua.current)
 
 <template>
     <nav>
-        <div class="logo-area">
+        <RouterLink class="logo-area" to="/">
             <img src="/logo.png" class="logo">
-        </div>
+        </RouterLink>
 
         <div class="right">
             <ul class="menu">

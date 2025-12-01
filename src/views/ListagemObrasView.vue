@@ -24,6 +24,8 @@ const props = defineProps({
   },
 });
 
+const isoRota = props.iso;
+
 const countryStore = useCountryStore();
 const router = useRouter();
 const obraStore = useObraStore();
@@ -65,8 +67,8 @@ onMounted(async () => {
   }
 });
 
-const paisAtual = computed(() => {
-  return countryStore.getCountryNameById(props.iso);
+const paisInfo = computed(() => {
+  return countryStore.countrys.find(c => c.iso_3166_1 === props.iso);
 });
 
 let tipoAtual = "";
@@ -127,15 +129,23 @@ function abrirObra(id, tipo) {
 }
 </script>
 <template>
-  <h1>{{ paisAtual }}</h1>
-  <h2>{{ tipoAtual }}</h2>
-
-  <FiltroComponent
-  :generos="generoStore.generos"
-  @aplicar="IDgeneroSelecionado = $event"
-  @limpar="IDgeneroSelecionado = null"
-  />
-
+  <section>
+  <button
+    class="voltar"
+    @click="router.push({ name: 'país', params: { isoRota } });"
+    >  <span>‹</span>  Voltar</button>
+    <div class="header">
+        <img :src="paisInfo?.bandeira" alt="" class="flag">
+        <h1>{{ paisInfo?.native_name }}</h1>
+    </div>
+    <div class="filtroETitulo">
+      <h2>{{ tipoAtual }}</h2>
+      <FiltroComponent
+      :generos="generoStore.generos"
+      @aplicar="IDgeneroSelecionado = $event"
+      @limpar="IDgeneroSelecionado = null"
+      />
+    </div>
     <div v-if="props.tipo == 'filmes'">
     <ul>
       <li v-for="filme in obraStore.filmes" :key="filme.id">
@@ -161,24 +171,91 @@ function abrirObra(id, tipo) {
       </li>
     </ul>
   </div>
+  </section>
 </template>
 <style scoped>
-ul {
-margin: 10vw;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, auto);
-  gap: 1rem;
+button.voltar {
+    background: none;
+    border: none;
+    color: #0D1321;
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-bottom: 1rem;
 }
+
+button.voltar:hover {
+    transform: scale(1.05);
+    transition: 0.2s ease;
+}
+
+button span {
+  font-size: 1.8rem;
+  margin-right: 0.4rem;
+  margin-bottom: 0.25vw;
+}
+section {
+  margin: 3vw 6vw;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  margin-bottom: 6vw;
+}
+
+.header .flag {
+  width: 84px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1.5px solid #cfcfcf;
+}
+ul {
+  margin: 4rem auto;
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
 ul li {
+  width: 100%;
+  max-width: 260px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 1vw;
 }
+
 ul li img {
   width: 100%;
-  height: 800px;
+  height: 380px;
   object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform .2s;
 }
+
+ul li img:hover {
+  transform: scale(1.03);
+}
+
+ul li p {
+  margin-top: .6rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.filtroETitulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 </style>

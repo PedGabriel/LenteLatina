@@ -21,7 +21,10 @@ export const useCountryStore = defineStore('country', () => {
 
   async function getAllCountrys(lingua) {
     const response = await api.get(`configuration/countries?language=${lingua}`);
-    state.countrys = response.data;
+    state.countrys = response.data.map(c => ({
+      ...c,
+      bandeira: `https://flagcdn.com/w320/${c.iso_3166_1.toLowerCase()}.png`
+    }));
   }
 
   const latinCountries = computed(() => state.countrys.filter(c => latinAmericanCountries.includes(c.iso_3166_1)))

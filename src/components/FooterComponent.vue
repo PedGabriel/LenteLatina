@@ -15,9 +15,15 @@
     <div class="redes">
             <h4>Redes Sociais</h4>
                   <ul class="icons">
-        <li><span class="mdi mdi-facebook"></span></li>
-        <li><span class="mdi mdi-instagram"></span></li>
-        <li><span class="mdi mdi-twitter"></span></li>
+        <a
+        href="https://www.facebook.com/"
+        ><span class="mdi mdi-facebook"></span></a>
+        <a
+        href="https://www.instagram.com/"
+        ><span class="mdi mdi-instagram"></span></a>
+        <a
+        href="https://www.twitter.com/"
+        ><span class="mdi mdi-twitter"></span></a>
       </ul>
   <p>LenteLatina © 2025</p>
            

@@ -86,13 +86,14 @@ onMounted(async () => {
       <img class="poster"
         :src="`https://image.tmdb.org/t/p/w500${dados.poster}`"
         :alt="dados.titulo"
+        v-fallback-img="'default-poster'"
       />
     </div>
 
     <div class="info">
       <h1>{{ dados.titulo }}</h1>
 
-      <p class="sub-info">
+      <p class="sub">
         {{ dados.data }} • {{ dados.duracao }}
       </p>
 
@@ -118,8 +119,8 @@ onMounted(async () => {
       <div class="ator" v-for="ator in dados.elenco" :key="ator.id">
 
         <img
+          v-fallback-profile="'default-poster'"
           class="ator-img"
-          v-if="ator.profile_path"
           :src="`https://image.tmdb.org/t/p/w300${ator.profile_path}`"
         />
 
@@ -153,9 +154,13 @@ onMounted(async () => {
   flex: 2;
 }
 
-.sub-info {
+.sub {
   color: #444;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5vw;
+}
+
+.generos {
+  margin-bottom: 1.2vw;
 }
 
 .generos span {
@@ -166,9 +171,10 @@ onMounted(async () => {
 }
 
 .sinopse {
+  margin-top: 0.5vw;
   max-width: 650px;
   line-height: 1.5;
-  margin-bottom: 1rem;
+  margin-bottom: 1vw;
 }
 
 .elencoTitulo {

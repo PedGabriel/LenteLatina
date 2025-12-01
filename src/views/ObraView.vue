@@ -23,15 +23,31 @@
             await obraStore.getFilmes(obraStore.IDgeneroSelecionado, lingua.current, obraStore.iso, obraStore.sort, obraStore.pagina )
             await obraStore.getFilmeById(props.id)
         }
+        else {
+            await obraStore.getSeries(obraStore.IDgeneroSelecionado, lingua.current, obraStore.iso, obraStore.sort, obraStore.pagina )
+            await obraStore.getSerieById(props.id)
+        }
     })
 
     console.log(props.tipo)
 </script>
 <template>
-    <img
-    :src="`https://image.tmdb.org/t/p/w500${obraStore.filme?.poster_path}`"
-    :alt="obraStore.filme?.title">
-    <h1>{{ obraStore.filme?.title }}</h1>
+    <section>
+        <div v-if="props.tipo == 'filmes'">
+            <img
+                :src="`https://image.tmdb.org/t/p/w500${obraStore.filme?.poster_path}`"
+                :alt="obraStore.filme?.title">
+                <h1>{{ obraStore.filme?.title }}</h1>
+        </div>
+        <div v-else>
+            <img
+                :src="`https://image.tmdb.org/t/p/w500${obraStore.serie?.poster_path}`"
+                :alt="obraStore.serie?.name">
+                <h1>{{ obraStore.serie?.name }}</h1>
+        </div>
+
+    </section>
+   
 
 </template>
 <style scoped>

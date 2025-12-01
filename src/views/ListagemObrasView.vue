@@ -87,6 +87,12 @@ async function update() {
       null,
       pagina.value
     );
+    obraStore.setEstado({
+      idGenero: IDgeneroSelecionado.value,
+      isoPais: props.iso,
+      paginaAtual: pagina.value,
+      sortBy: null
+});
   } else {
     console.log("foi");
     await generoStore.getAllGeneros("tv", lingua.current);
@@ -97,6 +103,12 @@ async function update() {
       null,
       pagina.value
     );
+    obraStore.setEstado({
+      idGenero: IDgeneroSelecionado.value,
+      isoPais: props.iso,
+      paginaAtual: pagina.value,
+      sortBy: null
+    });
   }
 }
 
@@ -140,6 +152,8 @@ function abrirObra(id, tipo) {
     <ul>
       <li v-for="serie in obraStore.series" :key="serie.id">
         <img
+        @click="abrirObra(serie.id, props.tipo)"
+
           :src="`https://image.tmdb.org/t/p/w500${serie.poster_path}`"
           :alt="serie.name"
         />

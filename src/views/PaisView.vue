@@ -18,6 +18,13 @@ const countryStore = useCountryStore();
 const instance = getCurrentInstance();
 const lingua = reactive(instance.appContext.config.globalProperties.$lingua);
 
+obraStore.setEstado({
+  idGenero: null,
+  isoPais: props.iso,
+  paginaAtual: 1,
+  sortBy: "popularity.desc"
+});
+
 onMounted(async () => {
     await countryStore.getAllCountrys(lingua.current)
     await obraStore.getFilmes(null, lingua.current, props.iso, "popularity.desc", 1)
@@ -33,6 +40,8 @@ function irParaObras (iso, tipo) {
     router.push({ name: 'ListaObras', params: {iso, tipo}})
 }
 
+
+
 </script>
 <template>
     <section>
@@ -43,10 +52,13 @@ function irParaObras (iso, tipo) {
     <h2>Filmes mais populares:</h2>
     <CarrosselComponent
     :itens = "obraStore.filmes"
+    :tipo="'filmes'"
     />
     <h2>Séries mais populares:</h2>
     <CarrosselComponent
     :itens = "obraStore.series"
+    :tipo="'series'"
+
     />
     <ul class="botoes">
         <li>
